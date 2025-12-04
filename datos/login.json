@@ -1,0 +1,32 @@
+[
+  {
+    "usuario": "standard_user",
+    "clave": "secret_sauce",
+    "debe_funcionar": true
+  },
+    {
+    "usuario": "problem_user",
+    "clave": "secret_sauce",
+    "debe_funcionar": true
+  },
+  {
+    "usuario": "performance_glitch_user",
+    "clave": "secret_sauce",
+    "debe_funcionar": true
+  },
+  {
+    "usuario": "locked_out_user",
+    "clave": "secret_sauce",
+    "debe_funcionar": false
+  },
+  {
+    "usuario": "usuario_inexistente",
+    "clave": "secret_sauce",
+    "debe_funcionar": false
+  },
+  {
+    "usuario": "standard_user",
+    "clave": "password_incorrecto",
+    "debe_funcionar": false
+  }
+]

@@ -1,7 +1,12 @@
 from conftest import captura_de_pantalla
 
 
-def test_login(driver, usuario_logueado):    
+def test_login(driver, usuario_logueado):
+    """
+    Verifica que un usuario logueado acceda correctamente a la página de inventario.
+    Comprueba el título del logo y el título de la sección de productos.
+    """
+        
     try:
         print("Iniciando verificación de login y página de inventario")
         inventory_page = usuario_logueado

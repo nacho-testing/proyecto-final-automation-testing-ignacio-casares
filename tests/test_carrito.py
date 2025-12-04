@@ -75,6 +75,7 @@ def test_carrito(driver, usuario_logueado):
         )
 
         print("Verificación completa: el producto en el carrito coincide con el producto añadido")
+        
     except Exception as e:
         captura_de_pantalla(driver, 'test_carrito')
         raise e
