@@ -2,12 +2,333 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-    <title id="head-title">reporte.html</title>
-      <link href="assets\style.css" rel="stylesheet" type="text/css"/>
+    <title id="head-title">TalentoLab - Resumen de ejecución</title>
+      <style type="text/css">body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  /* do not increase min-width as some may use split screens */
+  min-width: 800px;
+  color: #999;
+}
+
+h1 {
+  font-size: 24px;
+  color: black;
+}
+
+h2 {
+  font-size: 16px;
+  color: black;
+}
+
+p {
+  color: black;
+}
+
+a {
+  color: #999;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/******************************
+ * SUMMARY INFORMATION
+ ******************************/
+#environment td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  vertical-align: top;
+}
+#environment tr:nth-child(odd) {
+  background-color: #f6f6f6;
+}
+#environment ul {
+  margin: 0;
+  padding: 0 20px;
+}
+
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed,
+.passed .col-result {
+  color: green;
+}
+
+span.skipped,
+span.xfailed,
+span.rerun,
+.skipped .col-result,
+.xfailed .col-result,
+.rerun .col-result {
+  color: orange;
+}
+
+span.error,
+span.failed,
+span.xpassed,
+.error .col-result,
+.failed .col-result,
+.xpassed .col-result {
+  color: red;
+}
+
+.col-links__extra {
+  margin-right: 3px;
+}
+
+/******************************
+ * RESULTS TABLE
+ *
+ * 1. Table Layout
+ * 2. Extra
+ * 3. Sorting items
+ *
+ ******************************/
+/*------------------
+ * 1. Table Layout
+ *------------------*/
+#results-table {
+  border: 1px solid #e6e6e6;
+  color: #999;
+  font-size: 12px;
+  width: 100%;
+}
+#results-table th,
+#results-table td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  text-align: left;
+}
+#results-table th {
+  font-weight: bold;
+}
+
+/*------------------
+ * 2. Extra
+ *------------------*/
+.logwrapper {
+  max-height: 230px;
+  overflow-y: scroll;
+  background-color: #e6e6e6;
+}
+.logwrapper.expanded {
+  max-height: none;
+}
+.logwrapper.expanded .logexpander:after {
+  content: "collapse [-]";
+}
+.logwrapper .logexpander {
+  z-index: 1;
+  position: sticky;
+  top: 10px;
+  width: max-content;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 5px 7px;
+  margin: 10px 0 10px calc(100% - 80px);
+  cursor: pointer;
+  background-color: #e6e6e6;
+}
+.logwrapper .logexpander:after {
+  content: "expand [+]";
+}
+.logwrapper .logexpander:hover {
+  color: #000;
+  border-color: #000;
+}
+.logwrapper .log {
+  min-height: 40px;
+  position: relative;
+  top: -50px;
+  height: calc(100% + 50px);
+  border: 1px solid #e6e6e6;
+  color: black;
+  display: block;
+  font-family: "Courier New", Courier, monospace;
+  padding: 5px;
+  padding-right: 80px;
+  white-space: pre-wrap;
+}
+
+div.media {
+  border: 1px solid #e6e6e6;
+  float: right;
+  height: 240px;
+  margin: 0 5px;
+  overflow: hidden;
+  width: 320px;
+}
+
+.media-container {
+  display: grid;
+  grid-template-columns: 25px auto 25px;
+  align-items: center;
+  flex: 1 1;
+  overflow: hidden;
+  height: 200px;
+}
+
+.media-container--fullscreen {
+  grid-template-columns: 0px auto 0px;
+}
+
+.media-container__nav--right,
+.media-container__nav--left {
+  text-align: center;
+  cursor: pointer;
+}
+
+.media-container__viewport {
+  cursor: pointer;
+  text-align: center;
+  height: inherit;
+}
+.media-container__viewport img,
+.media-container__viewport video {
+  object-fit: cover;
+  width: 100%;
+  max-height: 100%;
+}
+
+.media__name,
+.media__counter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex: 0 0 25px;
+  align-items: center;
+}
+
+.collapsible td:not(.col-links) {
+  cursor: pointer;
+}
+.collapsible td:not(.col-links):hover::after {
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.col-result {
+  width: 130px;
+}
+.col-result:hover::after {
+  content: " (hide details)";
+}
+
+.col-result.collapsed:hover::after {
+  content: " (show details)";
+}
+
+#environment-header h2:hover::after {
+  content: " (hide details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#environment-header.collapsed h2:hover::after {
+  content: " (show details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/*------------------
+ * 3. Sorting items
+ *------------------*/
+.sortable {
+  cursor: pointer;
+}
+.sortable.desc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: -12.5px;
+  border: 10px solid #4caf50;
+  border-bottom: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+.sortable.asc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: 12.5px;
+  border: 10px solid #4caf50;
+  border-top: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+.hidden, .summary__reload__button.hidden {
+  display: none;
+}
+
+.summary__data {
+  flex: 0 0 550px;
+}
+.summary__reload {
+  flex: 1 1;
+  display: flex;
+  justify-content: center;
+}
+.summary__reload__button {
+  flex: 0 0 300px;
+  display: flex;
+  color: white;
+  font-weight: bold;
+  background-color: #4caf50;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.summary__reload__button:hover {
+  background-color: #46a049;
+}
+.summary__spacer {
+  flex: 0 0 550px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filters,
+.collapse {
+  display: flex;
+  align-items: center;
+}
+.filters button,
+.collapse button {
+  color: #999;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.filters button:hover,
+.collapse button:hover {
+  color: #ccc;
+}
+
+.filter__label {
+  margin-right: 10px;
+}
+
+      </style>
+    
   </head>
   <body>
-    <h1 id="title">reporte.html</h1>
-    <p>Report generated on 20-Oct-2025 at 14:57:15 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
+    <h1 id="title">TalentoLab - Resumen de ejecución</h1>
+    <p>Report generated on 05-Dec-2025 at 22:13:45 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
         v4.1.1</p>
     <div id="environment-header">
       <h2>Environment</h2>
@@ -23,7 +344,7 @@
     <template id="template_results-table__body--empty">
       <tbody class="results-table-row">
         <tr id="not-found-message">
-          <td colspan="4">No results found. Check the filters.</th>
+          <td colspan="5">No results found. Check the filters.</th>
         </tr>
     </template>
     <template id="template_results-table__tbody">
@@ -31,7 +352,7 @@
         <tr class="collapsible">
         </tr>
         <tr class="extras-row">
-          <td class="extra" colspan="4">
+          <td class="extra" colspan="5">
             <div class="extraHTML"></div>
             <div class="media">
               <div class="media-container">
@@ -61,7 +382,7 @@
         <h2>Summary</h2>
         <div class="additional-summary prefix">
         </div>
-        <p class="run-count">3 tests took 00:02:12.</p>
+        <p class="run-count">16 tests took 00:01:29.</p>
         <p class="filter">(Un)check the boxes to filter the results.</p>
         <div class="summary__reload">
           <div class="summary__reload__button hidden" onclick="location.reload()">
@@ -74,7 +395,7 @@
             <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="failed" disabled/>
             <span class="failed">0 Failed,</span>
             <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="passed" />
-            <span class="passed">3 Passed,</span>
+            <span class="passed">16 Passed,</span>
             <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="skipped" disabled/>
             <span class="skipped">0 Skipped,</span>
             <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xfailed" disabled/>
@@ -92,6 +413,7 @@
         </div>
       </div>
       <div class="additional-summary summary">
+        <p>Suite UI + API completa</p>
       </div>
       <div class="additional-summary postfix">
       </div>
@@ -103,12 +425,13 @@
           <th class="sortable" data-column-type="testId">Test</th>
           <th class="sortable" data-column-type="duration">Duration</th>
           <th>Links</th>
+          URL
         </tr>
       </thead>
     </table>
   </body>
   <footer>
-    <div id="data-container" data-jsonblob="{&#34;environment&#34;: {&#34;Python&#34;: &#34;3.13.7&#34;, &#34;Platform&#34;: &#34;Windows-11-10.0.26100-SP0&#34;, &#34;Packages&#34;: {&#34;pytest&#34;: &#34;8.4.2&#34;, &#34;pluggy&#34;: &#34;1.6.0&#34;}, &#34;Plugins&#34;: {&#34;html&#34;: &#34;4.1.1&#34;, &#34;metadata&#34;: &#34;3.1.1&#34;}}, &#34;tests&#34;: {&#34;tests/test_saucedemo.py::test_login&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_saucedemo.py::test_login&#34;, &#34;duration&#34;: &#34;00:01:46&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_saucedemo.py::test_login&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:46&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\nSe ingres\u00f3 correctamente a la p\u00e1gina {} con el t\u00edtulo esperado: {} https://www.saucedemo.com/ Swag Labs\nSe completaron correctamente los campos de login y se hizo clic en el bot\u00f3n.\nLogin completado correctamente y se ingres\u00f3 a la p\u00e1gina de inventario.\n&#34;}], &#34;tests/test_saucedemo.py::test_catalogo&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_saucedemo.py::test_catalogo&#34;, &#34;duration&#34;: &#34;00:00:17&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_saucedemo.py::test_catalogo&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:17&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\nSe ingres\u00f3 correctamente a la p\u00e1gina {} con el t\u00edtulo esperado: {} https://www.saucedemo.com/ Swag Labs\nSe completaron correctamente los campos de login y se hizo clic en el bot\u00f3n.\nBot\u00f3n de men\u00fa encontrado.\nHaciendo clic en el bot\u00f3n de men\u00fa lateral\nEsperando a que aparezca el men\u00fa lateral\nEl men\u00fa lateral est\u00e1 visible.\nVerificando que la opci\u00f3n activa sea &amp;#x27;Name (A to Z)&amp;#x27;\nVerificando la existencia del select de ordenamiento\nVerificando el orden y texto de las opciones\nVerificando la existencia del carrito de compras\nVerificando que el carrito est\u00e9 vac\u00edo\nNombre: Sauce Labs Backpack\nPrecio: $29.99\n&#34;}], &#34;tests/test_saucedemo.py::test_carrito&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_saucedemo.py::test_carrito&#34;, &#34;duration&#34;: &#34;00:00:08&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_saucedemo.py::test_carrito&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:08&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\nSe ingres\u00f3 correctamente a la p\u00e1gina {} con el t\u00edtulo esperado: {} https://www.saucedemo.com/ Swag Labs\nSe completaron correctamente los campos de login y se hizo clic en el bot\u00f3n.\nVerificando el t\u00edtulo de la secci\u00f3n\nBuscando productos en el cat\u00e1logo\nVerificando que el primer producto tenga nombre y precio...\nPrimer producto: Nombre: Sauce Labs Backpack, Precio: $29.99\nVerificando que exista el bot\u00f3n &amp;#x27;Add to cart&amp;#x27; en el primer producto\nHaciendo clic en el bot\u00f3n &amp;#x27;Add to cart&amp;#x27;\nVerificando que el contador del carrito muestre 1\nEsperando que aparezca el contador del carrito\nIngresando al carrito\nVerificando que exista la lista de productos en el carrito\nVerificando que el producto a\u00f1adido sea el correcto\nEl producto en el carrito coincide con el producto a\u00f1adido.\n&#34;}]}, &#34;renderCollapsed&#34;: [&#34;passed&#34;], &#34;initialSort&#34;: &#34;result&#34;, &#34;title&#34;: &#34;reporte.html&#34;}"></div>
+    <div id="data-container" data-jsonblob="{&#34;environment&#34;: {&#34;Python&#34;: &#34;3.14.1&#34;, &#34;Platform&#34;: &#34;Windows-10-10.0.19045-SP0&#34;, &#34;Packages&#34;: {&#34;pytest&#34;: &#34;9.0.1&#34;, &#34;pluggy&#34;: &#34;1.6.0&#34;}, &#34;Plugins&#34;: {&#34;html&#34;: &#34;4.1.1&#34;, &#34;metadata&#34;: &#34;3.1.1&#34;}, &#34;JAVA_HOME&#34;: &#34;C:\\Program Files\\Amazon Corretto\\jdk21.0.8_9&#34;}, &#34;tests&#34;: {&#34;tests/test_carrito.py::test_carrito&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_carrito.py::test_carrito&#34;, &#34;duration&#34;: &#34;00:00:07&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_carrito.py::test_carrito&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:07&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;------------------------------ Captured log setup ------------------------------\nINFO     talentolab:conftest.py:40 Iniciando fixture usuario_logueado\nINFO     talentolab:conftest.py:42 Abriendo la p\u00e1gina de login\nINFO     talentolab:conftest.py:44 Realizando login con usuario est\u00e1ndar\nINFO     talentolab:conftest.py:46 Login exitoso, devolviendo sesi\u00f3n de usuario\n\n------------------------------ Captured log call -------------------------------\nINFO     talentolab:test_carrito.py:17 Verificando el t\u00edtulo de la secci\u00f3n\nINFO     talentolab:test_carrito.py:20 T\u00edtulo de secci\u00f3n encontrado: &amp;#x27;Products&amp;#x27;\nINFO     talentolab:test_carrito.py:24 Cantidad de productos en el cat\u00e1logo: 6\nINFO     talentolab:test_carrito.py:29 Primer producto obtenido para pruebas\nINFO     talentolab:test_carrito.py:31 Verificando que el primer producto tenga nombre y precio\nINFO     talentolab:test_carrito.py:34 Nombre del primer producto: Sauce Labs Backpack\nINFO     talentolab:test_carrito.py:38 Precio del primer producto: 29.99\nINFO     talentolab:test_carrito.py:40 Primer producto: Nombre=&amp;#x27;Sauce Labs Backpack&amp;#x27;, Precio=&amp;#x27;29.99&amp;#x27;\nINFO     talentolab:test_carrito.py:42 Verificando que exista el bot\u00f3n &amp;#x27;Add to cart&amp;#x27; en el primer producto\nINFO     talentolab:test_carrito.py:45 Agregando primer producto al carrito\nINFO     talentolab:test_carrito.py:49 Valor del contador del carrito despu\u00e9s de agregar el producto: 1\nINFO     talentolab:test_carrito.py:52 Navegando a la p\u00e1gina del carrito\nINFO     talentolab:test_carrito.py:55 Verificando que exista la lista de productos en el carrito\nINFO     talentolab:test_carrito.py:60 Cantidad de productos en el carrito: 1\nINFO     talentolab:test_carrito.py:63 Verificando que el producto a\u00f1adido sea el correcto\nINFO     talentolab:test_carrito.py:67 Nombre del producto en el carrito: Sauce Labs Backpack\nINFO     talentolab:test_carrito.py:72 Precio del producto en el carrito: 29.99\nINFO     talentolab:test_carrito.py:76 Verificaci\u00f3n completa: el producto en el carrito coincide con el producto a\u00f1adido\n\n&#34;}], &#34;tests/test_carrito_multiple.py::test_carrito[producto0]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_carrito_multiple.py::test_carrito[producto0]&#34;, &#34;duration&#34;: &#34;00:00:07&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_carrito_multiple.py::test_carrito[producto0]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:07&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;------------------------------ Captured log setup ------------------------------\nINFO     talentolab:conftest.py:40 Iniciando fixture usuario_logueado\nINFO     talentolab:conftest.py:42 Abriendo la p\u00e1gina de login\nINFO     talentolab:conftest.py:44 Realizando login con usuario est\u00e1ndar\nINFO     talentolab:conftest.py:46 Login exitoso, devolviendo sesi\u00f3n de usuario\n\n------------------------------ Captured log call -------------------------------\nINFO     talentolab:test_carrito_multiple.py:26 Iniciando test del carrito para el producto: Sauce Labs Bike Light\nINFO     talentolab:test_carrito_multiple.py:28 Obteniendo t\u00edtulo de la secci\u00f3n del inventario\nINFO     talentolab:test_carrito_multiple.py:32 T\u00edtulo de secci\u00f3n encontrado: &amp;#x27;Products&amp;#x27;\nINFO     talentolab:test_carrito_multiple.py:36 Cantidad de productos encontrados en el cat\u00e1logo: 6\nINFO     talentolab:test_carrito_multiple.py:40 Precio obtenido para &amp;#x27;Sauce Labs Bike Light&amp;#x27;: 9.99\nINFO     talentolab:test_carrito_multiple.py:47 Agregando producto al carrito: Sauce Labs Bike Light\nINFO     talentolab:test_carrito_multiple.py:50 Verificando que el contador del carrito se actualiz\u00f3\nINFO     talentolab:test_carrito_multiple.py:52 Valor del contador del carrito: 1\nINFO     talentolab:test_carrito_multiple.py:55 Navegando a la p\u00e1gina del carrito\nINFO     talentolab:test_carrito_multiple.py:58 Verificando la lista de productos en el carrito\nINFO     talentolab:test_carrito_multiple.py:63 Cantidad de productos en el carrito: 1\n\n&#34;}], &#34;tests/test_carrito_multiple.py::test_carrito[producto1]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_carrito_multiple.py::test_carrito[producto1]&#34;, &#34;duration&#34;: &#34;00:00:07&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_carrito_multiple.py::test_carrito[producto1]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:07&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;------------------------------ Captured log setup ------------------------------\nINFO     talentolab:conftest.py:40 Iniciando fixture usuario_logueado\nINFO     talentolab:conftest.py:42 Abriendo la p\u00e1gina de login\nINFO     talentolab:conftest.py:44 Realizando login con usuario est\u00e1ndar\nINFO     talentolab:conftest.py:46 Login exitoso, devolviendo sesi\u00f3n de usuario\n\n------------------------------ Captured log call -------------------------------\nINFO     talentolab:test_carrito_multiple.py:26 Iniciando test del carrito para el producto: Sauce Labs Backpack\nINFO     talentolab:test_carrito_multiple.py:28 Obteniendo t\u00edtulo de la secci\u00f3n del inventario\nINFO     talentolab:test_carrito_multiple.py:32 T\u00edtulo de secci\u00f3n encontrado: &amp;#x27;Products&amp;#x27;\nINFO     talentolab:test_carrito_multiple.py:36 Cantidad de productos encontrados en el cat\u00e1logo: 6\nINFO     talentolab:test_carrito_multiple.py:40 Precio obtenido para &amp;#x27;Sauce Labs Backpack&amp;#x27;: 29.99\nINFO     talentolab:test_carrito_multiple.py:47 Agregando producto al carrito: Sauce Labs Backpack\nINFO     talentolab:test_carrito_multiple.py:50 Verificando que el contador del carrito se actualiz\u00f3\nINFO     talentolab:test_carrito_multiple.py:52 Valor del contador del carrito: 1\nINFO     talentolab:test_carrito_multiple.py:55 Navegando a la p\u00e1gina del carrito\nINFO     talentolab:test_carrito_multiple.py:58 Verificando la lista de productos en el carrito\nINFO     talentolab:test_carrito_multiple.py:63 Cantidad de productos en el carrito: 1\n\n&#34;}], &#34;tests/test_carrito_multiple.py::test_carrito[producto2]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_carrito_multiple.py::test_carrito[producto2]&#34;, &#34;duration&#34;: &#34;00:00:07&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_carrito_multiple.py::test_carrito[producto2]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:07&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;------------------------------ Captured log setup ------------------------------\nINFO     talentolab:conftest.py:40 Iniciando fixture usuario_logueado\nINFO     talentolab:conftest.py:42 Abriendo la p\u00e1gina de login\nINFO     talentolab:conftest.py:44 Realizando login con usuario est\u00e1ndar\nINFO     talentolab:conftest.py:46 Login exitoso, devolviendo sesi\u00f3n de usuario\n\n------------------------------ Captured log call -------------------------------\nINFO     talentolab:test_carrito_multiple.py:26 Iniciando test del carrito para el producto: Sauce Labs Bolt T-Shirt\nINFO     talentolab:test_carrito_multiple.py:28 Obteniendo t\u00edtulo de la secci\u00f3n del inventario\nINFO     talentolab:test_carrito_multiple.py:32 T\u00edtulo de secci\u00f3n encontrado: &amp;#x27;Products&amp;#x27;\nINFO     talentolab:test_carrito_multiple.py:36 Cantidad de productos encontrados en el cat\u00e1logo: 6\nINFO     talentolab:test_carrito_multiple.py:40 Precio obtenido para &amp;#x27;Sauce Labs Bolt T-Shirt&amp;#x27;: 15.99\nINFO     talentolab:test_carrito_multiple.py:47 Agregando producto al carrito: Sauce Labs Bolt T-Shirt\nINFO     talentolab:test_carrito_multiple.py:50 Verificando que el contador del carrito se actualiz\u00f3\nINFO     talentolab:test_carrito_multiple.py:52 Valor del contador del carrito: 1\nINFO     talentolab:test_carrito_multiple.py:55 Navegando a la p\u00e1gina del carrito\nINFO     talentolab:test_carrito_multiple.py:58 Verificando la lista de productos en el carrito\nINFO     talentolab:test_carrito_multiple.py:63 Cantidad de productos en el carrito: 1\n\n&#34;}], &#34;tests/test_catalogo.py::test_catalogo&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_catalogo.py::test_catalogo&#34;, &#34;duration&#34;: &#34;00:00:14&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_catalogo.py::test_catalogo&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:14&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;------------------------------ Captured log setup ------------------------------\nINFO     talentolab:conftest.py:40 Iniciando fixture usuario_logueado\nINFO     talentolab:conftest.py:42 Abriendo la p\u00e1gina de login\nINFO     talentolab:conftest.py:44 Realizando login con usuario est\u00e1ndar\nINFO     talentolab:conftest.py:46 Login exitoso, devolviendo sesi\u00f3n de usuario\n\n------------------------------ Captured log call -------------------------------\nINFO     talentolab:test_catalogo.py:17 Obteniendo t\u00edtulo de la secci\u00f3n del inventario\nINFO     talentolab:test_catalogo.py:21 T\u00edtulo de secci\u00f3n encontrado: &amp;#x27;Products&amp;#x27;\nINFO     talentolab:test_catalogo.py:24 Verificando existencia del bot\u00f3n de men\u00fa lateral\nINFO     talentolab:test_catalogo.py:26 Bot\u00f3n de men\u00fa encontrado.\nINFO     talentolab:test_catalogo.py:28 Haciendo clic en el bot\u00f3n de men\u00fa lateral\nINFO     talentolab:test_catalogo.py:30 El men\u00fa lateral est\u00e1 abierto.\nINFO     talentolab:test_catalogo.py:35 Verificando cantidad de \u00edtems en el men\u00fa: esperados 4, encontrados 4\nINFO     talentolab:test_catalogo.py:43 Verificando men\u00fa \u00edtem: esperado &amp;#x27;All Items&amp;#x27;, obtenido &amp;#x27;All Items&amp;#x27;\nINFO     talentolab:test_catalogo.py:43 Verificando men\u00fa \u00edtem: esperado &amp;#x27;About&amp;#x27;, obtenido &amp;#x27;About&amp;#x27;\nINFO     talentolab:test_catalogo.py:43 Verificando men\u00fa \u00edtem: esperado &amp;#x27;Logout&amp;#x27;, obtenido &amp;#x27;Logout&amp;#x27;\nINFO     talentolab:test_catalogo.py:43 Verificando men\u00fa \u00edtem: esperado &amp;#x27;Reset App State&amp;#x27;, obtenido &amp;#x27;Reset App State&amp;#x27;\nINFO     talentolab:test_catalogo.py:46 Todos los \u00edtems del men\u00fa fueron verificados correctamente.\nINFO     talentolab:test_catalogo.py:48 Verificando que la opci\u00f3n del ordenamiento activo sea &amp;#x27;Name (A to Z)&amp;#x27;\nINFO     talentolab:test_catalogo.py:52 Opci\u00f3n activa encontrada: &amp;#x27;Name (A to Z)&amp;#x27;\nINFO     talentolab:test_catalogo.py:55 Verificando existencia del select de ordenamiento\nINFO     talentolab:test_catalogo.py:60 Cantidad de opciones en el select: 4\nINFO     talentolab:test_catalogo.py:69 Verificando orden y texto de cada opci\u00f3n del select\nINFO     talentolab:test_catalogo.py:72 Opci\u00f3n 0: esperado &amp;#x27;Name (A to Z)&amp;#x27;, obtenido &amp;#x27;Name (A to Z)&amp;#x27;\nINFO     talentolab:test_catalogo.py:72 Opci\u00f3n 1: esperado &amp;#x27;Name (Z to A)&amp;#x27;, obtenido &amp;#x27;Name (Z to A)&amp;#x27;\nINFO     talentolab:test_catalogo.py:72 Opci\u00f3n 2: esperado &amp;#x27;Price (low to high)&amp;#x27;, obtenido &amp;#x27;Price (low to high)&amp;#x27;\nINFO     talentolab:test_catalogo.py:72 Opci\u00f3n 3: esperado &amp;#x27;Price (high to low)&amp;#x27;, obtenido &amp;#x27;Price (high to low)&amp;#x27;\nINFO     talentolab:test_catalogo.py:75 Verificando existencia del carrito de compras\nINFO     talentolab:test_catalogo.py:78 Verificando que el carrito est\u00e9 vac\u00edo\nINFO     talentolab:test_catalogo.py:80 Valor del contador del carrito: 0\nINFO     talentolab:test_catalogo.py:84 Cantidad de productos en el cat\u00e1logo: 6\nINFO     talentolab:test_catalogo.py:88 Verificando que cada producto tenga nombre y precio visibles\nINFO     talentolab:test_catalogo.py:93 Producto 0: Nombre=&amp;#x27;Sauce Labs Backpack&amp;#x27;, Precio=&amp;#x27;29.99&amp;#x27;\nINFO     talentolab:test_catalogo.py:93 Producto 1: Nombre=&amp;#x27;Sauce Labs Bike Light&amp;#x27;, Precio=&amp;#x27;9.99&amp;#x27;\nINFO     talentolab:test_catalogo.py:93 Producto 2: Nombre=&amp;#x27;Sauce Labs Bolt T-Shirt&amp;#x27;, Precio=&amp;#x27;15.99&amp;#x27;\nINFO     talentolab:test_catalogo.py:93 Producto 3: Nombre=&amp;#x27;Sauce Labs Fleece Jacket&amp;#x27;, Precio=&amp;#x27;49.99&amp;#x27;\nINFO     talentolab:test_catalogo.py:93 Producto 4: Nombre=&amp;#x27;Sauce Labs Onesie&amp;#x27;, Precio=&amp;#x27;7.99&amp;#x27;\nINFO     talentolab:test_catalogo.py:93 Producto 5: Nombre=&amp;#x27;Test.allTheThings() T-Shirt (Red)&amp;#x27;, Precio=&amp;#x27;15.99&amp;#x27;\nINFO     talentolab:test_catalogo.py:100 Primer producto: Nombre=&amp;#x27;Sauce Labs Backpack&amp;#x27;, Precio=&amp;#x27;29.99&amp;#x27;\n\n&#34;}], &#34;tests/test_login.py::test_login&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_login.py::test_login&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_login.py::test_login&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;------------------------------ Captured log setup ------------------------------\nINFO     talentolab:conftest.py:40 Iniciando fixture usuario_logueado\nINFO     talentolab:conftest.py:42 Abriendo la p\u00e1gina de login\nINFO     talentolab:conftest.py:44 Realizando login con usuario est\u00e1ndar\nINFO     talentolab:conftest.py:46 Login exitoso, devolviendo sesi\u00f3n de usuario\n\n------------------------------ Captured log call -------------------------------\nINFO     talentolab:test_login.py:14 Iniciando verificaci\u00f3n de login y p\u00e1gina de inventario\nINFO     talentolab:test_login.py:17 Verificando el t\u00edtulo del logo de la p\u00e1gina\nINFO     talentolab:test_login.py:20 T\u00edtulo encontrado: &amp;#x27;Swag Labs&amp;#x27;\nINFO     talentolab:test_login.py:23 Verificando t\u00edtulo de la secci\u00f3n de productos\nINFO     talentolab:test_login.py:27 T\u00edtulo de secci\u00f3n encontrado: &amp;#x27;Products&amp;#x27;\nINFO     talentolab:test_login.py:30 Login completado correctamente y se ingres\u00f3 a la p\u00e1gina de inventario.\n\n&#34;}], &#34;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar0]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar0]&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar0]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;------------------------------ Captured log call -------------------------------\nINFO     talentolab:test_login_multiple.py:23 Iniciando test de login con usuario: &amp;#x27;usuario&amp;#x27;\nINFO     talentolab:test_login_multiple.py:26 Abriendo la p\u00e1gina de login\nINFO     talentolab:test_login_multiple.py:29 Intentando login con usuario=&amp;#x27;usuario&amp;#x27; y clave=&amp;#x27;clave&amp;#x27;\nINFO     talentolab:test_login_multiple.py:41 Se espera que el login falle\nINFO     talentolab:test_login_multiple.py:45 Mensaje de error mostrado correctamente\n\n&#34;}], &#34;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar1]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar1]&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar1]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;------------------------------ Captured log call -------------------------------\nINFO     talentolab:test_login_multiple.py:23 Iniciando test de login con usuario: &amp;#x27;usuario&amp;#x27;\nINFO     talentolab:test_login_multiple.py:26 Abriendo la p\u00e1gina de login\nINFO     talentolab:test_login_multiple.py:29 Intentando login con usuario=&amp;#x27;usuario&amp;#x27; y clave=&amp;#x27;clave&amp;#x27;\nINFO     talentolab:test_login_multiple.py:41 Se espera que el login falle\nINFO     talentolab:test_login_multiple.py:45 Mensaje de error mostrado correctamente\n\n&#34;}], &#34;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar2]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar2]&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar2]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;------------------------------ Captured log call -------------------------------\nINFO     talentolab:test_login_multiple.py:23 Iniciando test de login con usuario: &amp;#x27;usuario&amp;#x27;\nINFO     talentolab:test_login_multiple.py:26 Abriendo la p\u00e1gina de login\nINFO     talentolab:test_login_multiple.py:29 Intentando login con usuario=&amp;#x27;usuario&amp;#x27; y clave=&amp;#x27;clave&amp;#x27;\nINFO     talentolab:test_login_multiple.py:41 Se espera que el login falle\nINFO     talentolab:test_login_multiple.py:45 Mensaje de error mostrado correctamente\n\n&#34;}], &#34;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar3]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar3]&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar3]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;------------------------------ Captured log call -------------------------------\nINFO     talentolab:test_login_multiple.py:23 Iniciando test de login con usuario: &amp;#x27;usuario&amp;#x27;\nINFO     talentolab:test_login_multiple.py:26 Abriendo la p\u00e1gina de login\nINFO     talentolab:test_login_multiple.py:29 Intentando login con usuario=&amp;#x27;usuario&amp;#x27; y clave=&amp;#x27;clave&amp;#x27;\nINFO     talentolab:test_login_multiple.py:41 Se espera que el login falle\nINFO     talentolab:test_login_multiple.py:45 Mensaje de error mostrado correctamente\n\n&#34;}], &#34;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar4]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar4]&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar4]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;------------------------------ Captured log call -------------------------------\nINFO     talentolab:test_login_multiple.py:23 Iniciando test de login con usuario: &amp;#x27;usuario&amp;#x27;\nINFO     talentolab:test_login_multiple.py:26 Abriendo la p\u00e1gina de login\nINFO     talentolab:test_login_multiple.py:29 Intentando login con usuario=&amp;#x27;usuario&amp;#x27; y clave=&amp;#x27;clave&amp;#x27;\nINFO     talentolab:test_login_multiple.py:41 Se espera que el login falle\nINFO     talentolab:test_login_multiple.py:45 Mensaje de error mostrado correctamente\n\n&#34;}], &#34;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar5]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar5]&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_login_multiple.py::test_login[usuario-clave-debe_funcionar5]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;------------------------------ Captured log call -------------------------------\nINFO     talentolab:test_login_multiple.py:23 Iniciando test de login con usuario: &amp;#x27;usuario&amp;#x27;\nINFO     talentolab:test_login_multiple.py:26 Abriendo la p\u00e1gina de login\nINFO     talentolab:test_login_multiple.py:29 Intentando login con usuario=&amp;#x27;usuario&amp;#x27; y clave=&amp;#x27;clave&amp;#x27;\nINFO     talentolab:test_login_multiple.py:41 Se espera que el login falle\nINFO     talentolab:test_login_multiple.py:45 Mensaje de error mostrado correctamente\n\n&#34;}], &#34;tests_api/test_jsonplaceholder.py::test_obtener_post_exitoso&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests_api/test_jsonplaceholder.py::test_obtener_post_exitoso&#34;, &#34;duration&#34;: &#34;780 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests_api/test_jsonplaceholder.py::test_obtener_post_exitoso&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;780 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests_api/test_jsonplaceholder.py::test_crear_post_exitoso&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests_api/test_jsonplaceholder.py::test_crear_post_exitoso&#34;, &#34;duration&#34;: &#34;00:00:01&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests_api/test_jsonplaceholder.py::test_crear_post_exitoso&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:01&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests_api/test_jsonplaceholder.py::test_eliminar_post_exitoso&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests_api/test_jsonplaceholder.py::test_eliminar_post_exitoso&#34;, &#34;duration&#34;: &#34;856 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests_api/test_jsonplaceholder.py::test_eliminar_post_exitoso&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;856 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests_api/test_jsonplaceholder.py::test_post_no_encontrado&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests_api/test_jsonplaceholder.py::test_post_no_encontrado&#34;, &#34;duration&#34;: &#34;870 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests_api/test_jsonplaceholder.py::test_post_no_encontrado&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;870 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;, &#34;-&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}]}, &#34;renderCollapsed&#34;: [&#34;passed&#34;], &#34;initialSort&#34;: &#34;result&#34;, &#34;title&#34;: &#34;TalentoLab - Resumen de ejecuci\u00f3n&#34;}"></div>
     <script>
       (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const { getCollapsedCategory, setCollapsedIds } = require('./storage.js')
