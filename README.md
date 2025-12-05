@@ -1,47 +1,62 @@
-# Proyecto de Automatización de Pruebas (SauceDemo)
+
+# Automation Testing - Proyecto de Automatización de Pruebas
+
+**Autor**: Ignacio Casares
 
 ## Propósito del proyecto
-Este proyecto implementa una automatización de pruebas para el sitio **SauceDemo** (https://www.saucedemo.com/), utilizando **Selenium WebDriver** y **Python**.
 
-El objetivo es automatizar los flujos en la página SauceDemo y garantizar que las funciones críticas del sitio web se comporten como se espera mediante pruebas automatizadas.
+Este proyecto automatiza pruebas funcionales para **SauceDemo** y la API **jsonplaceholder**, garantizando el correcto funcionamiento de sus funciones críticas.\
+Incluye pruebas de interfaz web con Selenium y de API, con scripts reproducibles para validar comportamientos clave del sistema.
 
 ## Tecnologías utilizadas
-- **Python 3**
-- **pytest**
-- **pytest-html**
-- **Selenium WebDriver**
 
-## Estructura
+-   **Python 3**
+-   **pytest**
+-   **pytest-html**
+-   **Selenium WebDriver**
+-   **Requests**
 
- - **README.md** - Documentación del proyecto
- - **tests/test_saucedemo.py** — Casos de prueba
- - **utils/helpers.py** — Configuración del WebDriver (Chrome) y funciones auxiliares para los tests
- - **reports/** - Reportes HTML y capturas de pantalla
+## Estructura del proyecto
 
-## Instalación
+    README.md              # Documentación general del proyecto
+    requirements.txt       # Dependencias de Python necesarias
+    conftest.py            # Configuración de Pytest
+    pytest.ini             # Archivo de configuración adicional de Pytest
+    tests/                 # Tests de UI
+    tests_api/             # Tests de API
+    pages/                 # Page Objects para pruebas de UI
+    datos/                 # Datos de prueba (CSV o JSON)
+    utils/                 # Funciones auxiliares y helpers
+    reports/               # Reportes de ejecución, capturas de pantalla y HTML
+    logs/                  # Logs generados durante la ejecución
 
-1. Asegúrate de tener Python 3.7 o superior instalado
-2. Descarga el WebDriver correspondiente a tu navegador: [selenium.dev](https://www.selenium.dev/)
-3. Clona este repositorio:
-   ```bash
-   git clone https://github.com/nacho-testing/pre-entrega-automation-testing-ignacio-casares.git
-4. Instala las dependencias:
-   ```bash
-    pip install selenium pytest pytest-html
+## Instalación de dependencias
 
-## Casos de prueba
- - **test_login**: Verifica acceso correcto a la página de inventario.
- - **test_catalogo**: Comprueba la presencia de productos, filtros y menú.
- - **test_carrito**: Valida que agregar un producto al carrito funcione correctamente.
+    pip install -r requirements.txt
 
-## Ejecución
+## Ejecución de las pruebas
 
- - Ejecuta las pruebas con:
-    ```bash
-    pytest -v tests/test_saucedemo.py
- - Para generar un reporte HTML:
-    ```bash
-    pytest tests/test_saucedemo.py -v --html=./reports/reporte.html
+### a. Completo
 
-## Autor
-**Autor**: Ignacio Casares
+    pytest -v
+
+### b. Por carpetas - UI, API
+
+    pytest -v tests/
+    pytest -v tests_api/
+
+### c. Con markers
+Los markers se definen en `pytest.ini`.
+
+    pytest -m MARKER
+
+### d. Reporte HTML
+
+    pytest --html=reports/reporte.html --self-contained-html -v -s
+
+## Interpretación de los reportes
+
+Los reportes se guardan en `reports/` e incluyen:
+ - Información del entorno de ejecución.
+ - Estado y duración de cada prueba.
+ - Capturas de pantalla de los tests fallidos (`screens/`).
