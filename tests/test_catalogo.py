@@ -1,6 +1,8 @@
 from conftest import captura_de_pantalla
+import pytest
 
 
+@pytest.mark.smoke
 def test_catalogo(driver, usuario_logueado):
     """
     Verifica que el catálogo cargue correctamente para un usuario logueado.

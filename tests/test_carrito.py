@@ -1,6 +1,8 @@
 from conftest import captura_de_pantalla
+import pytest
 
 
+@pytest.mark.smoke
 def test_carrito(driver, usuario_logueado):
     """
     Verifica que un usuario logueado pueda agregar un producto al carrito.

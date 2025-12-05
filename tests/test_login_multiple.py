@@ -10,6 +10,7 @@ from utils.datos import leer_json
 
 _CASOS_LOGIN = leer_json('datos/login.json')
 
+@pytest.mark.regresion
 @pytest.mark.parametrize("usuario, clave, debe_funcionar", _CASOS_LOGIN)
 def test_login(driver, usuario, clave, debe_funcionar):
     """
@@ -37,6 +38,7 @@ def test_login(driver, usuario, clave, debe_funcionar):
         else:
             print("Se espera que el login falle")
             assert resultado is None, "El login no debía funcionar, pero sí funcionó."
+            
             assert login_page.hay_error(), "Se esperaba un mensaje de error y no apareció."
             print("Mensaje de error mostrado correctamente")
             

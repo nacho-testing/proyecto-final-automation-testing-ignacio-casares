@@ -9,6 +9,7 @@ from utils.datos import leer_csv
 
 _PRODUCTOS = leer_csv('datos/productos.csv')
 
+@pytest.mark.regresion
 @pytest.mark.parametrize("producto", _PRODUCTOS)
 def test_carrito(driver, usuario_logueado, producto):
     """

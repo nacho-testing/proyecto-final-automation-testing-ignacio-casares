@@ -1,7 +1,9 @@
 import requests
+import pytest
 
 _URL_BASE = "https://jsonplaceholder.typicode.com"
 
+@pytest.mark.api
 def test_obtener_post_exitoso():
     """GET - Verifica que se puede obtener un post existente correctamente."""
 
@@ -17,6 +19,7 @@ def test_obtener_post_exitoso():
     assert datos["id"] == 1, f"ID incorrecto. Respuesta: {datos}"
 
 
+@pytest.mark.api
 def test_crear_post_exitoso():
     """POST - Verifica que se puede crear un post nuevo correctamente."""
 
@@ -32,6 +35,7 @@ def test_crear_post_exitoso():
     assert "id" in datos, "No se recibió ID en la respuesta"
 
 
+@pytest.mark.api
 def test_eliminar_post_exitoso():
     """DELETE - Verifica que se puede eliminar un post correctamente."""
 
@@ -42,6 +46,7 @@ def test_eliminar_post_exitoso():
     assert respuesta.text in ["{}", ""], f"Se esperaba cuerpo vacío. Recibido: {respuesta.text}"
 
 
+@pytest.mark.api
 def test_post_no_encontrado():
     """GET - Verifica el comportamiento al solicitar un post que no existe."""
 
