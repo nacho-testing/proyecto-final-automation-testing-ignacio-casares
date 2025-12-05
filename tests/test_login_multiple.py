@@ -2,6 +2,7 @@ import os
 import sys
 import pytest
 from pages.login_page import LoginPage
+from conftest import logger
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -19,26 +20,26 @@ def test_login(driver, request, usuario, clave, debe_funcionar):
 
     request.node.page_url = driver.current_url
 
-    print("Iniciando test de login con usuario: '%s'", usuario)
+    logger.info("Iniciando test de login con usuario: '%s'", usuario)
     login_page = LoginPage(driver)
 
-    print("Abriendo la página de login")
+    logger.info("Abriendo la página de login")
     login_page.abrir()
         
-    print("Intentando login con usuario='%s' y clave='%s'", usuario, clave)
+    logger.info("Intentando login con usuario='%s' y clave='%s'", usuario, clave)
     resultado = login_page.login(usuario, clave)
 
     if debe_funcionar == "True":
-        print("Se espera que el login funcione")
+        logger.info("Se espera que el login funcione")
         assert resultado is not None, "El login debía funcionar pero falló."
-        print("Login exitoso")
+        logger.info("Login exitoso")
 
         assert "inventory.html" in driver.current_url, f"URL inesperada: {driver.current_url}"
-        print("Redirigido correctamente a la página de inventario")
+        logger.info("Redirigido correctamente a la página de inventario")
 
     else:
-        print("Se espera que el login falle")
+        logger.info("Se espera que el login falle")
         assert resultado is None, "El login no debía funcionar, pero sí funcionó."
         
         assert login_page.hay_error(), "Se esperaba un mensaje de error y no apareció."
-        print("Mensaje de error mostrado correctamente")
+        logger.info("Mensaje de error mostrado correctamente")

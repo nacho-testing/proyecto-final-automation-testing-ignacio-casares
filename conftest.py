@@ -1,6 +1,5 @@
 import pytest
 import time
-import os
 import pathlib
 import logging
 from datetime import datetime
@@ -38,13 +37,13 @@ def usuario_logueado(driver):
     """
     Fixture que realiza login
     """
-    print("Iniciando fixture usuario_logueado")
+    logger.info("Iniciando fixture usuario_logueado")
     login_page = LoginPage(driver)
-    print("Abriendo la página de login")
+    logger.info("Abriendo la página de login")
     login_page.abrir()
-    print("Realizando login con usuario estándar")
+    logger.info("Realizando login con usuario estándar")
     pagina = login_page.login(_USERNAME, _PASSWORD)
-    print("Login exitoso, devolviendo sesión de usuario")
+    logger.info("Login exitoso, devolviendo sesión de usuario")
     return pagina
 
 def _crear_logger():
